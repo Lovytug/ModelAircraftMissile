@@ -1,11 +1,15 @@
 #pragma once
+#include "../../global/global.h"
+#include "../switcher_regime/IModeObserver.h"
+#include "../switcher_regime/IMethodObserver.h"
 
 namespace fuel
 {
-	class IFuelProfile()
+	class IFuelProfile() : public IMethodObserver
 	{
 	public:
 		~IFuelProfile() = default;
-		virtual [[nodiscard]] double getBurnArea(const double area) const = 0;
+		virtual void update(BurnRateFunction burn_area, double dt) = 0;
+		virtual [[nodiscard]] double getBurnArea() const = 0;
 	}
 }
