@@ -1,7 +1,7 @@
 #include <type_traits>
 
 template <typename State, typename Function>
-inline State rk4_step(Function&& f, const State& y, double t, double h) {
+inline State rk4_step(Function f, const State& y, double t, double h) {
     static_assert(std::is_invocable_v<Function, double, const State&>,
         "Function must be callable as f(t, y)");
 

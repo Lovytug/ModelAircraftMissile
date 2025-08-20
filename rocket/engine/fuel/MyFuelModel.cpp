@@ -1,62 +1,44 @@
 #include "MyFuelModel.h"
 
-fuel::MyFuelModel::MyFuelModel(IFuelProfile& fuel_profile, IDataProvider& sensor,
+fuel::MyFuelModel::MyFuelModel(
+	IFuelProfile_uptr fuel_profile, IPhisicsModule_uptr phisics,
 	double fuel_density, float a_boost, float a_sustain,
-	float n_boost, float n_sustain, std::string name) :
-	profile(fuel_profile), sensor_pressure(sensor), fuel_density(fuel_density),
-	a_boost(a_boost), a_sustain(a_sustain), n_boost(n_boost), n_sustain(n_sustain),
-	name(name), burn_rate(0.0), mass_flow_rate(0.0), time(0.0) {
+	float n_boost, float n_sustain, std::string name,
 
-	profile.registerObserver(this);
+) : 
+	profile(fuel_profile), phisics(phisics),
+	dyn_data(0.0, 0.0, Mode::Boost, 0.0, 0.0),
+	stat_data(fuel_density,
+		a_boost, a_sustain,
+		n_boost, n_sustain,
+		name
+	)
+{
+	
+	profile->registerObserver(this);
 }
 
-void  fuel::MyFuelModel::update(double dt)
+void fuel::MyFuelModel::updateState(const MyFuelDynamicData& state)
 {
-	updateTine(dt);
-
-	auto burn_rate_func = [this]() -> double {
-		return compute_burn_rate();
-		};
-
-	profile.update(burn_rate_func, dt)
-
-	burn_rate = burn_rate_func();
-
-	mass_flow_rate= fuel_density * burn_rate * profile.getBurnArea()
+	dyn_data = state;
 }
 
-[[nodiscard]] double fuel::MyFuelModel::getMassFlowRate() const
+DynamicDataType& fuel::MyFuelModel::getDynamicData() const noexcept
 {
-	return this->mass_flow_rate;
+	return dyn_data;
 }
 
-[[nodiscard]] std::string fuel::MyFuelModel::getName() const
+StaticDataType& fuel::MyFuelModel::getStaticData() const noexcept
 {
-	return this->name;
+	return stat_data;
 }
 
-[[nodiscard]] std::vector<double> fuel::MyFuelModel::getVectorState() const
+[[nodiscatd]] std::unique_ptr<phis::DynamicBundle> fuel::MyFuelModel::getPhisicFunc() const noexcept
 {
-
-}
-
-
-inline void fuel::MyFuelModel::updateTime(double dt)
-{
-	this->time += dt;
-}
-
-[[nodiscard]] double fuel::MyFuelModel::compute_burn_rate()
-{
-	double pressure = sensor_pressore.readValue();
-
-	if (currentMode == Mode::Boost)
-		return a_boost * std::pow(pressure, n_boost);
-	else
-		return a_sustain * std::pow(pressure, n_sustain);
+	return phisics->getDynamicBundle(); // надо расширить до возраения физики и профиля и самого топлива
 }
 
 void fuel::MyFuelModel::OnModeChanged(Mode newMode)
 {
-	this->currentMode = newMode;
+	dyn_data.set("currentMode", newMode);
 }

@@ -1,17 +1,18 @@
 #pragma once
-#include "../engine/IEngineComponent.h"
-#include "../engine/IStateProvider.h"
-#include "../sensor/IDataProvider.h"
 #include "switcher_regime/IModeObserver.h"
+#include "../../../util/TypeData/DynamicDataType.h"
+#include "../../../util/TypeData/StaticDataType.h"
+#include "../../../phisics/IPhisicsModule.h"
 
 namespace fuel
 {
-	class IFuelModel : 
-		public IEngineComponent, 
-		public IStateProvider<IFuelModel>, 
-		public IModeObserver
+	class IFuelModel : public IModeObserver
 	{
 	public:
-		virtual [[nodiscard]] double getMassFlowRate() const = 0;
+		virtual ~IFuelModel() = default;
+		virtual [[nodiscard]] DynamicDataType& getDynamicData() const noexcept = 0;
+		virtual [[nodiscard]] StaticDataType& getStaticData() const noexcept = 0;
+		virtual [[nodiscatd]] std::unique_ptr<phis::DynamicBundle> getPhisicFunc() const noexcept = 0;
+		virtual void updateState(const DynamicDataType&) = 0;
 	};
 }

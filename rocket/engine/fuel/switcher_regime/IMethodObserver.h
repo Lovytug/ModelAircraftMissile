@@ -10,7 +10,7 @@ namespace fuel
 		virtual void notifyObservers() = 0;
 		virtual void registerObserver(IModeObserver& observer) = 0;
 		virtual void unregisterObserver(IModeObserver& observer) = 0;
-		virtual void setMode(Mode mode);
+		virtual void setMode(Mode mode) = 0;
 		virtual [[nodiscard]] Mode getMode() const = 0;
 	};
 }

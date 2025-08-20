@@ -1,24 +1,26 @@
 #pragma once
 #include <memory>
+#include <functional>
 #include "IDataProvider.h"
 
-namespace sens
+namespace sensor
 {
 	template<class T>
 	class MethodProvider : public IDataProvider
 	{
 	public:
-		MethodProvider(std::shared_ptr<T> obj, double (T::*getter)() const) :
-			obj(std::move(obj)), getter(getter) { }
+		MethodProvider(std::shared_ptr<T> obj, std::function<double(const T&, double)> f) 
+			: obj(std::move(obj)),
+			func([this, f](double param) {return f(*this->obj, param); }) {}
 			
-		[[nodiscard]] double readValue() const override
+		[[nodiscard]] double read(double param) const override
 		{
-			return (obj.get()->*getter)();
+			return func(param);
 		}
 
 	private:
 		std::shared_ptr<T> obj;
-		double (T::*getter)() const;
+		std::function<double(double)> func;
 	};
 }
 

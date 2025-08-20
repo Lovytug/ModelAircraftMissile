@@ -6,6 +6,6 @@ namespace sensor
 	{
 	public:
 		virtual ~IDataProvider() = default;
-		virtual [[nodiscard]] double readValue() const = 0;
+		virtual [[nodiscard]] double read(double param) const = 0;
 	};
 }
