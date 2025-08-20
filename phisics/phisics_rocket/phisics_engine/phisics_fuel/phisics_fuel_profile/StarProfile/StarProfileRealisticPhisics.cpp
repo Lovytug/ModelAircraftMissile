@@ -52,12 +52,12 @@
 {
 	bundle = std::make_unique<FuelModelDynamicBundle>();
 
-	bundle->burn_rate_func = [this](const auto& fuel) {
-		return area_func(fuel);
+	bundle->area_func = [this](const auto& fuel) {
+		return compute_area(fuel);
 		};
 
-	bundle->mass_flow_rate_func = [this](const auto& fuel, double burn_rate) {
-		return dr_inner_func(fuel, burn_rate);
+	bundle->dr_inner_func = [this](const auto& fuel, double burn_rate) {
+		return compute_dr_inner(fuel, burn_rate);
 		};
 
 	return bundle;

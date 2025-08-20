@@ -5,12 +5,11 @@
 #include "../../../util/global/global.h"
 #include "../../../phisics/IPhisicsModule.h"
 
-namespace chamb
+namespace noz
 {
-	class ICombustionChamber
+	class INozzle
 	{
-	public:
-		virtual ~ICombustionChamber() = default;
+		virtual ~INozzle() = default;
 		virtual [[nodiscard]] DynamicDataType& getDynamicData() const noexcept = 0;
 		virtual [[nodiscard]] StaticDataType& getStaticData() const noexcept = 0;
 		virtual [[nodiscatd]] u_ptr<phis::DynamicBundle> getPhisicFunc() const noexcept = 0;

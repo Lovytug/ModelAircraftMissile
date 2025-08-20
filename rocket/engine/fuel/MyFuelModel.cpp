@@ -1,12 +1,12 @@
 #include "MyFuelModel.h"
 
 fuel::MyFuelModel::MyFuelModel(
-	IFuelProfile_uptr fuel_profile, IPhisicsModule_uptr phisics,
+	u_ptr<IFuelProfile> fuel_profile, u_ptr<phis::IPhisicsModule> phisics,
 	double fuel_density, float a_boost, float a_sustain,
 	float n_boost, float n_sustain, std::string name,
 
 ) : 
-	profile(fuel_profile), phisics(phisics),
+	profile(std::move(fuel_profile)), phisics(std::move(phisics)),
 	dyn_data(0.0, 0.0, Mode::Boost, 0.0, 0.0),
 	stat_data(fuel_density,
 		a_boost, a_sustain,
@@ -33,9 +33,11 @@ StaticDataType& fuel::MyFuelModel::getStaticData() const noexcept
 	return stat_data;
 }
 
-[[nodiscatd]] std::unique_ptr<phis::DynamicBundle> fuel::MyFuelModel::getPhisicFunc() const noexcept
+[[nodiscatd]] u_ptr<phis::DynamicBundle> fuel::MyFuelModel::getPhisicFunc() const noexcept
 {
-	return phisics->getDynamicBundle(); // надо расширить до возраения физики и профиля и самого топлива
+	auto phs_profile = profile->getDynamicDundle();
+	auto phs_state_fuel = phisics->getDynamicBundle();
+	return ; // надо расширить до возраения физики и профиля и самого топлива
 }
 
 void fuel::MyFuelModel::OnModeChanged(Mode newMode)

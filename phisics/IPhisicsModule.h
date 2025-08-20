@@ -11,6 +11,6 @@ namespace phis
 	{
 	public:
 		virtual ~IPhisicsModule() = default;
-		virtual std::unique_ptr<DynamicBundle> getDynamicBundle() const = 0;
+		virtual [[nodiscard]] std::unique_ptr<DynamicBundle> getDynamicBundle() const = 0;
 	};
 }

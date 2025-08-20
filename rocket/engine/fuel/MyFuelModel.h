@@ -38,7 +38,7 @@ namespace fuel
 	{
 	public:
 		explicit MyFuelModel(
-			IFuelProfile_uptr fuel_profile, IPhisicsModule_uptr phisics,
+			u_ptr<IFuelProfile> fuel_profile, u_ptr<phis::IPhisicsModule> phisics,
 			double fuel_density, float a_boost, float a_sustain,
 			float n_boost, float n_sustain, std::string name
 		);
@@ -47,13 +47,13 @@ namespace fuel
 
 		[[nodiscard]] DynamicDataType& getDynamicData() const noexcept override;
 		[[nodiscard]] StaticDataType& getStaticData() const noexcept override;
-		[[nodiscatd]] std::unique_ptr<phis::DynamicBundle> getPhisicFunc() const noexcept override;
+		[[nodiscatd]] u_ptr<phis::DynamicBundle> getPhisicFunc() const noexcept override;
 
 		void OnModeChanged(Mode newMode) override;
 
 	private:
-		IPhisicsModule_uptr phisics;
-		IFuelProfile_uptr profile;
+		u_ptr<phis::IPhisicsModule> phisics;
+		u_ptr<IFuelProfile> profile;
 		MyFuelDynamicData dyn_data;
 		MyFuelStaticData stat_data;
 	};
