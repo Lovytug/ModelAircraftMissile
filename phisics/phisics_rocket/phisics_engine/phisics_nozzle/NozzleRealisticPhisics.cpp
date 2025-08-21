@@ -2,7 +2,7 @@
 
 phis::NozzleRealisticPhisics::NozzleRealisticPhisics() {}
 
-[[nodiscard]] double phis::NozzleRealisticPhisics::compute_mass_gaz_rate(const noz::INozzle& nozzle, double pressure) const noexcept
+[[nodiscard]] double phis::NozzleRealisticPhisics::compute_mass_gaz_rate(const IComponent& nozzle, double pressure) const noexcept
 {
 	auto state = nozzle.getStaticData();
 	auto crit_area = state.get<double>("critical_area_nozzle");
@@ -23,7 +23,7 @@ phis::NozzleRealisticPhisics::NozzleRealisticPhisics() {}
 				std::pow(get_P(pressure), (adiabatic + 1.0) / adiabatic) ) );
 }
 
-[[nodiscard]] double phis::NozzleRealisticPhisics::compute_F_thrust(const noz::INozzle& nozzle, double pressure) const noexcept
+[[nodiscard]] double phis::NozzleRealisticPhisics::compute_F_thrust(const IComponent& nozzle, double pressure) const noexcept
 {
 	return compute_mass_gaz_rate(nozzle, pressure) * nozzle.getDynamicData().get<double>("V_effectiv") +
 		(pressure - const_P_a) * nozzle.getStaticData.get<double>("critical_area_nozzle");
@@ -31,18 +31,25 @@ phis::NozzleRealisticPhisics::NozzleRealisticPhisics() {}
 
 [[nodiscard]] std::unique_ptr<DynamicBundle> phis::NozzleRealisticPhisics::getDynamicBundle() const
 {
-	bundle = std::make_unique<FuelModelDynamicBundle>();
+	auto bundle = std::make_unique<NozzleDynamicBundle>();
 
-	bundle->mass_gaz_rate_func = [this](const auto& nozzle, double pressure) {
-		return compute_mass_gaz_rate(nozzle, pressure);
-		};
+	bundle->add<double, const IComponent&, double> (
+		"mass_gaz_func", 
+		[this](const IComponent& nozzle, double pressure) -> double {
+			return compute_mass_gaz_rate(nozzle, pressure);
+		}
+	);
 
-	bundle->F_thrust_func = [this](const auto& nozzle, double pressure) {
-		return compute_F_thrust(nozzle, pressure);
-		};
+	bundle->add<double, const IComponent&, double>(
+		"F_thrust_func",
+		[this](const IComponent& nozzle, double pressure) -> double {
+			return compute_F_thrust(nozzle, pressure);
+		}
+	);
 
 	return bundle;
 }
+
 
 [[nodiscard]] inline double phis::NozzleRealisticPhisics::get_P(double pressure) const noexcept
 {

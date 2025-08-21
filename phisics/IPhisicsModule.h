@@ -1,12 +1,9 @@
 #pragma once
+#include "../util/TypeData/DynamicBundle.h"
 #include <memory>
 
 namespace phis
 {
-	struct DynamicBundle {
-		virtual ~DynamicBundle() = default;
-	};
-
 	class IPhisicsModule
 	{
 	public:

@@ -4,15 +4,25 @@
 #include <cmath>
 #include "../../../realistic/IRealisticPhisicsModule.h"
 #include "../../../../rocket/engine/fuel/IFuelModel.h"
+#include "../../../../util/IComponent/IComponent.h"
 
 namespace phis
 {
 	struct FuelModelDynamicBundle : public DynamicBundle
 	{
-		std::function<double(const fuel::IFuelModel&, double)> burn_rate_func;
-		std::function<double(const fuel::IFuelModel&, double)> mass_flow_rate_func;
-		std::function<double()> area_func;
-		std::function<double()> r_inner_func;
+		std::unordered_map<std::string, std::function<double(const std::vector<std::any>&)>> storage;
+
+		double do_call(const std::string& name, const std::vector<std::any>& args) override {
+			auto it = storage.find(name);
+			if (it == storage.end()) {
+				throw std::runtime_error("Function not found: " + name);
+			}
+			return it->second(args);
+		}
+
+		void do_add(const std::string& name, std::function<double(const std::vector<std::any>&)> func) override {
+			storage[name] = std::move(func);
+		}
 	};
 
 	class FuelModelRealisticPhisics : public IRealisticPhisicsModule
@@ -23,7 +33,7 @@ namespace phis
 		[[nodiscard]] std::unique_ptr<DynamicBundle> getDynamicBundle() const override;
 
 	private:
-		double compute_burn_rate(const fuel::IFuelModel&, double) const;
-		double compute_mass_flow_rate(const fuel::IFuelModel&, double) const;
+		double compute_burn_rate(const IComponent&, double) const;
+		double compute_mass_flow_rate(const IComponent&, double) const;
 	};
 }

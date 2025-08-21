@@ -2,7 +2,7 @@
 
 phis::CombustionChamberRealisticPhisics::CombustionChamberRealisticPhisics() {}
 
-[[nodiscard]] double phis::CombustionChamberRealisticPhisics::compute_dp(const ICombustionChamber& combustion, double mass_fuel_rate, double mass_nozzle_rate) const noexcept
+[[nodiscard]] double phis::CombustionChamberRealisticPhisics::compute_dP(const IComponent& combustion, double mass_fuel_rate, double mass_nozzle_rate) const noexcept
 {
 	auto state = combustion.getDynamicData();
 	auto value = combustion.getStaticData().get<double>("R_g") * state.get<double>("temperature") / state.get<double>("V_cam");
@@ -11,9 +11,14 @@ phis::CombustionChamberRealisticPhisics::CombustionChamberRealisticPhisics() {}
 
 [[nodiscard]] std::unique_ptr<DynamicBundle> phis::CombustionChamberRealisticPhisics::getDynamicBundle() const
 {
-	return {
-		[this](const auto& combustion, double mass_fuel_rate, double mass_nozzle_rate) {
-			return compute_mass_flow_rate(combustion, mass_fuel_rate, mass_nozzle_rate);
-		};
-	};
+	auto bundle = std::make_unique<NozzleDynamicBundle>();
+
+	bundle->add<double, const IComponent&, double, double>(
+		"dP_func",
+		[this](const IComponent& combustion, double mass_fuel_rate, double mass_nozzle_rate) -> double {
+			return compute_dP(combustion, mass_fuel_rate, mass_nozzle_rate);
+		}
+	);
+
+	return bundle;
 }

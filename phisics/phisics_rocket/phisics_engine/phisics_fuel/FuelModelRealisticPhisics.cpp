@@ -4,7 +4,7 @@ phis::FuelModelRealisticPhisics::FuelModelRealisticPhisics()
 	: {}
 
 
-double phis::FuelModelRealisticPhisics::compute_burn_rate(const fuel::IFuelModel& fuel, double pressure) const
+double phis::FuelModelRealisticPhisics::compute_burn_rate(const IComponent& fuel, double pressure) const
 {
 	auto state = fuel.getStaticData();
 	if (fuel.getDynamicData().get<fuel::Mode>("currentMode") == fuel::Mode::Boost)
@@ -14,7 +14,7 @@ double phis::FuelModelRealisticPhisics::compute_burn_rate(const fuel::IFuelModel
 }
 
 
-double phis::FuelModelRealisticPhisics::compute_mass_flow_rate(const fuel::IFuelModel& fuel, double pressure) const
+double phis::FuelModelRealisticPhisics::compute_mass_flow_rate(const IComponent& fuel, double pressure) const
 {
 	auto state = fuel.getStaticData();
 	return state.get<double>("fuel_density") * compute_burn_rate(fuel, pressure) * fuel.getDynamicData().get<float>("area");
@@ -23,15 +23,21 @@ double phis::FuelModelRealisticPhisics::compute_mass_flow_rate(const fuel::IFuel
 
 [[nodiscard]] std::unique_ptr<DynamicBundle> phis::FuelModelRealisticPhisics::getDynamicBundle() const noexcept
 {
-	bundle = std::make_unique<FuelModelDynamicBundle>();
+	auto bundle = std::make_unique<FuelModelDynamicBundle>();
 
-	bundle->burn_rate_func = [this](const auto& fuel, double pressure) {
-		return compute_burn_rate(fuel, pressure);
-	};
+	bundle->add<double, const IComponent&, double>(
+		"bern_rate_func",
+		[this](const IComponent& fuel, double pressure) -> double {
+			return compute_burn_rate(fuel, pressure);
+		}
+	);
 
-	bundle->mass_flow_rate_func = [this](const auto& fuel, double pressure) {
-		return compute_mass_flow_rate(fuel, pressure);
-	};
+	bundle->add<double, const IComponent&, double>(
+		"mass_flow_rate_func",
+		[this](const IComponent& fuel, double pressure) -> double {
+			return compute_mass_flow_rate(fuel, pressure);
+		}
+	);
 
 	return bundle;
 }
