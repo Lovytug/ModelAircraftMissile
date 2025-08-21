@@ -5,9 +5,9 @@
 #include <numeric>
 
 template<typename T>
-using u_ptr<T> = std::unique_ptr<T>
+using u_ptr = std::unique_ptr<T>;
 
 template<typename T>
-using sh_ptr<T> = std::shared_ptr<T>
+using sh_ptr = std::shared_ptr<T>;
 
-inline constexpr M_PI = std::acos(-1);
+inline constexpr double M_PI = 3.14159265358979323846;

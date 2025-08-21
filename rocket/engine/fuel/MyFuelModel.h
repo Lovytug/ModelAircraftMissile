@@ -6,7 +6,7 @@
 
 namespace fuel
 {
-	struct MyFuelDynamicData : DynamicDataType
+	struct MyFuelDynamicData final : DynamicDataType
 	{
 		MyFuelDynamicData(
 			double burn_rate, double mass_flow_rate, Mode currentMode, 
@@ -15,11 +15,11 @@ namespace fuel
 			set("mass_flow_rate", mass_flow_rate);
 			set("currentMode", currentMode);
 			set("area", area);
-			set("r_inner", r_inner)
+			set("r_inner", r_inner);
 		}
 	};
 
-	struct MyFuelStaticData : StaticDataType // надо расшир€ть дл€ остальных параметрв топлива
+	struct MyFuelStaticData final : StaticDataType // надо расшир€ть дл€ остальных параметрв топлива
 	{
 		MyFuelStaticData(
 			const double fuel_density, const float a_boost, const float a_sustain,
@@ -34,7 +34,7 @@ namespace fuel
 		}
 	};
 
-	class MyFuelModel : public IFuelModel
+	class MyFuelModel final : public IFuelModel
 	{
 	public:
 		explicit MyFuelModel(

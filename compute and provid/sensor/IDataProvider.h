@@ -1,11 +1,10 @@
 #pragma once
-
+#include "../../util/IComponent/IComponent.h"
 namespace sensor
 {
-	class IDataProvider
+	class IDataProvider : public IComponent
 	{
 	public:
 		virtual ~IDataProvider() = default;
-		virtual [[nodiscard]] double read(double param) const = 0;
 	};
 }
