@@ -1,7 +1,6 @@
 #pragma once
 #include <string>
 #include "IFuelModel.h"
-#include "fuel_profile/IFuelProfile.h"
 #include "../global/global.h"
 
 namespace fuel
@@ -14,8 +13,6 @@ namespace fuel
 			set("burn_rate", burn_rate);
 			set("mass_flow_rate", mass_flow_rate);
 			set("currentMode", currentMode);
-			set("area", area);
-			set("r_inner", r_inner);
 		}
 	};
 
@@ -38,7 +35,7 @@ namespace fuel
 	{
 	public:
 		explicit MyFuelModel(
-			u_ptr<IFuelProfile> fuel_profile, u_ptr<phis::IPhisicsModule> phisics,
+			u_ptr<phis::IPhisicsModule> phisics,
 			double fuel_density, float a_boost, float a_sustain,
 			float n_boost, float n_sustain, std::string name
 		);
@@ -47,13 +44,10 @@ namespace fuel
 
 		[[nodiscard]] DynamicDataType& getDynamicData() const noexcept override;
 		[[nodiscard]] StaticDataType& getStaticData() const noexcept override;
-		[[nodiscatd]] u_ptr<phis::DynamicBundle> getPhisicFunc() const noexcept override;
-
-		void OnModeChanged(Mode newMode) override;
+		[[nodiscatd]] u_ptr<DynamicBundle> getPhisicFunc() const noexcept override;
 
 	private:
 		u_ptr<phis::IPhisicsModule> phisics;
-		u_ptr<IFuelProfile> profile;
 		MyFuelDynamicData dyn_data;
 		MyFuelStaticData stat_data;
 	};

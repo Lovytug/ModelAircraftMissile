@@ -33,9 +33,9 @@ namespace sensor
 			return component_->getPhisicFunc();
 		}
 
-		void updateState(const DynamicDataType&) override
+		void updateState(const DynamicDataType& data) override
 		{
-			component_->updateState(DynamicDataType);
+			component_->updateState(data);
 		}
 		
 	private:

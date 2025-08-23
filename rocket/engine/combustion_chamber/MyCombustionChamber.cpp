@@ -32,7 +32,7 @@ StaticDataType& chamb::MyCombustionChamber::getStaticData() const noexcept
 	return stat_data;
 }
 
-[[nodiscatd]] u_ptr<phis::DynamicBundle> chamb::MyCombustionChamber::getPhisicFunc() const noexcept
+[[nodiscatd]] u_ptr<DynamicBundle> chamb::MyCombustionChamber::getPhisicFunc() const noexcept
 {
 	return phisics->getDynamicBundle();
 }

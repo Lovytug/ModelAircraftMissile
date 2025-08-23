@@ -14,10 +14,9 @@ double phis::FuelModelRealisticPhisics::compute_burn_rate(const IComponent& fuel
 }
 
 
-double phis::FuelModelRealisticPhisics::compute_mass_flow_rate(const IComponent& fuel, double pressure) const
+double phis::FuelModelRealisticPhisics::compute_mass_flow_rate(const IComponent& fuel, double pressure, double area) const
 {
-	auto state = fuel.getStaticData();
-	return state.get<double>("fuel_density") * compute_burn_rate(fuel, pressure) * fuel.getDynamicData().get<float>("area");
+	return fuel.getStaticData().get<double>("fuel_density") * compute_burn_rate(fuel, pressure) * area;
 }
 
 
@@ -26,16 +25,16 @@ double phis::FuelModelRealisticPhisics::compute_mass_flow_rate(const IComponent&
 	auto bundle = std::make_unique<FuelModelDynamicBundle>();
 
 	bundle->add<double, const IComponent&, double>(
-		"bern_rate_func",
+		"burn_rate_func",
 		[this](const IComponent& fuel, double pressure) -> double {
 			return compute_burn_rate(fuel, pressure);
 		}
 	);
 
-	bundle->add<double, const IComponent&, double>(
+	bundle->add<double, const IComponent&, double, double>(
 		"mass_flow_rate_func",
-		[this](const IComponent& fuel, double pressure) -> double {
-			return compute_mass_flow_rate(fuel, pressure);
+		[this](const IComponent& fuel, double pressure, double area) -> double {
+			return compute_mass_flow_rate(fuel, pressure, area);
 		}
 	);
 

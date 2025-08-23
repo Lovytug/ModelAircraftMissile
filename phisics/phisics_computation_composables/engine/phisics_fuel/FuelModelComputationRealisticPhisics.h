@@ -1,12 +1,10 @@
 #pragma once
-#include <functional>
-#include "../../../../util/IComponent/IComponent.h"
+#include "../../../../composables/IComputeModule.h"
 #include "../../../realistic/IRealisticPhisicsModule.h"
-#include "../../../../rocket/engine/nozzle/INozzle.h"
 
 namespace phis
 {
-	struct NozzleDynamicBundle final : public DynamicBundle
+	struct FuelModelComputationDynamicBundle final : public DynamicBundle 
 	{
 		std::unordered_map<std::string, std::function<std::any(const std::vector<std::any>&)>> storage;
 
@@ -23,17 +21,16 @@ namespace phis
 		}
 	};
 
-	class NozzleRealisticPhisics final : public IRealisticPhisicsModule
+	class FuelModelComputationRealisticPhisics final : public IRealisticPhisicsModule
 	{
 	public:
-		NozzleRealisticPhisics();
+		explicit FuelModelComputationRealisticPhisics();
 
 		[[nodiscard]] std::unique_ptr<DynamicBundle> getDynamicBundle() const override;
 
 	private:
-		[[nodiscard]] double compute_mass_gaz_rate(const IComponent&, double) const noexcept;
-		[[nodiscard]] double compute_F_thrust(const IComponent&, double) const noexcept;
-		[[nodiscard]] inline double get_P(double) const noexcept;
-		[[nodiscard]] inline double get_P_crit(double) const noexcept;
+		double compute_burn_rate_func_for_integrate(const comp::IComputeModule&, double);
+		double compute_mass_flow_rate_for_integrate(const comp::IComputeModule&, double);
+		double compute_dr_inner_for_integrate(const comp::IComputeModule&, double);
 	};
 }

@@ -10,7 +10,7 @@ namespace phis
 {
 	struct FuelModelDynamicBundle : public DynamicBundle
 	{
-		std::unordered_map<std::string, std::function<double(const std::vector<std::any>&)>> storage;
+		std::unordered_map<std::string, std::function<std::any(const std::vector<std::any>&)>> storage;
 
 		double do_call(const std::string& name, const std::vector<std::any>& args) override {
 			auto it = storage.find(name);
@@ -34,6 +34,6 @@ namespace phis
 
 	private:
 		double compute_burn_rate(const IComponent&, double) const;
-		double compute_mass_flow_rate(const IComponent&, double) const;
+		double compute_mass_flow_rate(const IComponent&, double, double) const;
 	};
 }

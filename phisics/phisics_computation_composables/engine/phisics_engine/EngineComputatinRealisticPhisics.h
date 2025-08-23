@@ -1,12 +1,10 @@
 #pragma once
-#include <functional>
+#include "../../../../composables/IComputeModule.h"
 #include "../../../realistic/IRealisticPhisicsModule.h"
-#include "../../../../rocket/engine/combustion_chamber/ICombustionChamber.h"
-#include "../../../../util/IComponent/IComponent.h"
 
 namespace phis
 {
-	struct CombustionChamberDynamicBundle final : public DynamicBundle
+	struct EngineComputationDynamicBundle final : public DynamicBundle 
 	{
 		std::unordered_map<std::string, std::function<std::any(const std::vector<std::any>&)>> storage;
 
@@ -23,15 +21,14 @@ namespace phis
 		}
 	};
 
-	class CombustionChamberRealisticPhisics final : public IRealisticPhisicsModule
+	class EngineComputatinRealisticPhisics final : public IRealisticPhisicsModule
 	{
 	public:
-		CombustionChamberRealisticPhisics();
+		explicit EngineComputatinRealisticPhisics();
 
-		[[nodiscard]] std::unique_ptr<DynamicBundle> getDynamicBundle() const override;
+		[[nodiscard]] u_ptr<DynamicBundle> getDynamicBundle() const override;
 
 	private:
-		[[nodiscard]] double compute_dP(const IComponent&, double, double) const noexcept;
-
+		DynamicDataType& compute_engine_func(const comp::IComputeModule&);
 	};
 }

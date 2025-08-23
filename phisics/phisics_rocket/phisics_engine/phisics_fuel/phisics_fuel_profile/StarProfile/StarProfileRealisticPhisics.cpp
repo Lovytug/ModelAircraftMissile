@@ -16,7 +16,7 @@
 
 [[nodiscard]] double phis::StarProfileRealisticPhisics::compute_perimeter(const IComponent& profile) const
 {
-	constexpr size_t N_points = 500;
+	constexpr size_t N_points = 300;
 	const double d_theta = 2.0 * M_PI / (N_points - 1);
 
 	std::vector<double> x, y;
@@ -45,7 +45,7 @@
 [[nodiscard]] double phis::StarProfileRealisticPhisics::compute_derivity_base_profile(const IComponent& profile, double theta) const
 {
 	auto state = profile.getStaticData();
-	return -state.get<double>("Amp") * N * sin(state.get<short>("N") * thetta);
+	return -state.get<double>("Amp") * state.get<short>("N") * sin(state.get<short>("N") * thetta);
 }
 
 [[nodiscard]] std::unique_ptr<DynamicBundle> phis::StarProfileRealisticPhisics::getDynamicBundle() const

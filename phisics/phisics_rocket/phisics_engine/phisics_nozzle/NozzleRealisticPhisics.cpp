@@ -34,7 +34,7 @@ phis::NozzleRealisticPhisics::NozzleRealisticPhisics() {}
 	auto bundle = std::make_unique<NozzleDynamicBundle>();
 
 	bundle->add<double, const IComponent&, double> (
-		"mass_gaz_func", 
+		"mass_gaz_rate_func", 
 		[this](const IComponent& nozzle, double pressure) -> double {
 			return compute_mass_gaz_rate(nozzle, pressure);
 		}

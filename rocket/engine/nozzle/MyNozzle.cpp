@@ -36,7 +36,7 @@ StaticDataType& noz::MyNozzle::getStaticData() const noexcept
 	return stat_data;
 }
 
-[[nodiscatd]] u_ptr<phis::DynamicBundle> noz::MyNozzle::getPhisicFunc() const noexcept
+[[nodiscatd]] u_ptr<DynamicBundle> noz::MyNozzle::getPhisicFunc() const noexcept
 {
 	return phisics->getDynamicBundle();
 }

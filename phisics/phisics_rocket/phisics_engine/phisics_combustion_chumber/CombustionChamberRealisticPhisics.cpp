@@ -11,7 +11,7 @@ phis::CombustionChamberRealisticPhisics::CombustionChamberRealisticPhisics() {}
 
 [[nodiscard]] std::unique_ptr<DynamicBundle> phis::CombustionChamberRealisticPhisics::getDynamicBundle() const
 {
-	auto bundle = std::make_unique<NozzleDynamicBundle>();
+	auto bundle = std::make_unique<CombustionChamberDynamicBundle>();
 
 	bundle->add<double, const IComponent&, double, double>(
 		"dP_func",

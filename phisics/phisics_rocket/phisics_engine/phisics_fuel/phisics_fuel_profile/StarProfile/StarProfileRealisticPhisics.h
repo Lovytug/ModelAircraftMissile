@@ -10,7 +10,7 @@ namespace phis
 {
 	struct FuelProfileDynamicBundle : public DynamicBundle
 	{
-		std::unordered_map<std::string, std::function<double(const std::vector<std::any>&)>> storage;
+		std::unordered_map<std::string, std::function<std::any(const std::vector<std::any>&)>> storage;
 
 		double do_call(const std::string& name, const std::vector<std::any>& args) override {
 			auto it = storage.find(name);

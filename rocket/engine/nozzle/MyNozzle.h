@@ -43,7 +43,7 @@ namespace noz
 
 		[[nodiscard]] DynamicDataType& getDynamicData() const noexcept override;
 		[[nodiscard]] StaticDataType& getStaticData() const noexcept override;
-		[[nodiscatd]] u_ptr<phis::DynamicBundle> getPhisicFunc() const noexcept override;
+		[[nodiscatd]] u_ptr<DynamicBundle> getPhisicFunc() const noexcept override;
 
 
 	private:   

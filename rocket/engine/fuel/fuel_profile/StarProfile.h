@@ -6,7 +6,6 @@
 #include "trapz.h"
 #include "IFuelProfile.h"
 
-
 namespace fuel
 {
 	struct StarProfileDynamicData : public DynamicDataType
@@ -37,7 +36,7 @@ namespace fuel
 	class StarProfile : public IFuelProfile
 	{
 	public:
-		explicit StarProfile(IPhisicsModule_uptr phsics, double R_o, double R_i_0, double L_boost, double L_sustain,
+		explicit StarProfile(u_ptr<phis::IPhisicsModule> phisics, double R_o, double R_i_0, double L_boost, double L_sustain,
 			short N, double amp, double tetta, std::string name);
 
 		void updateState(const DynamicDataType&) override;
@@ -54,7 +53,7 @@ namespace fuel
 
 	private:
 		std::vector<std::unique_ptr<IModeObserver>> observers;
-		IPhisicsModule_uptr phisics;
+		u_ptr<phis::IPhisicsModule> phisics;
 		StarProfileDynamicData dyn_data;
 		StarProfileStaticData stat_data;
 	};
