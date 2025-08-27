@@ -1,5 +1,6 @@
 #pragma once
-#include "../util/TypeData/DynamicBundle.h"
+#include "../base_component/global/global.h"
+#include "../type_data/bundle/DynamicBundle.h"
 #include <memory>
 
 namespace phis
@@ -8,6 +9,6 @@ namespace phis
 	{
 	public:
 		virtual ~IPhisicsModule() = default;
-		virtual [[nodiscard]] std::unique_ptr<DynamicBundle> getDynamicBundle() const = 0;
+		virtual [[nodiscard]] u_ptr<mdt::DynamicBundle> getDynamicBundle() const = 0;
 	};
 }
