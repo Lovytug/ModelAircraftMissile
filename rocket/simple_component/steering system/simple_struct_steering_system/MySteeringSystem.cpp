@@ -5,7 +5,7 @@ steer::MySteeringSystem::MySteeringSystem(
 	double tau, double delta_max_steering,
 	double damping_coef, std::string name
 ) :
-	phisics(phisics),
+	phisics(std::move(phisics)),
 	dyn_data(
 		0.0,
 		0.0,

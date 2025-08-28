@@ -7,9 +7,12 @@ phis::MySteeringSystemRealisitcPhisics::MySteeringSystemRealisitcPhisics() {}
 	return steer.getDynamicData().get<double>("zeta");
 }
 
-[[nodiscard]] double phis::MySteeringSystemRealisitcPhisics::compute_dzeta(const detail::IDataProvider& nozzle, double cmd) const noexcept
+[[nodiscard]] double phis::MySteeringSystemRealisitcPhisics::compute_dzeta(const detail::IDataProvider& steer, double cmd) const noexcept
 {
-
+	auto state = steer.getStaticData();
+	double omega_n = 1.0 / state.get<double>("tau");
+	return pow(omega_n, 2) * (cmd - steer.getDynamicData().get<double>("delta_steering") -
+		2.0 * state.get<double>("damping_coef") * omega_n * steer.getDynamicData().get<double>("zeta_steering");
 }
 
 [[nodiscard]] u_ptr<mdt::DynamicBundle> phis::MySteeringSystemRealisitcPhisics::getDynamicBundle() const
@@ -31,15 +34,4 @@ phis::MySteeringSystemRealisitcPhisics::MySteeringSystemRealisitcPhisics() {}
 	);
 
 	return bundle;
-}
-
-
-[[nodiscard]] inline double phis::NozzleRealisticPhisics::get_P(double pressure) const noexcept
-{
-	return pressure / const_P_a;
-}
-
-[[nodiscard]] inline double phis::NozzleRealisticPhisics::get_P_crit(double adiabatic) const noexcept
-{
-	return std::pow(2.0 / (adiabatic + 1), adiabatic / (adiabatic - 1.0));
 }

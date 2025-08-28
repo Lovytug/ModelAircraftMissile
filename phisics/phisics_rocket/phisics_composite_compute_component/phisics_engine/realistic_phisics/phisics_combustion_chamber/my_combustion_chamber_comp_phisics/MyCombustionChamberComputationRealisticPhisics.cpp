@@ -25,5 +25,5 @@ double phis::MyCombustionChamberComputationRealisticPhisics::compute_dP_for_inte
 
 	auto dP_func = bundle_chumber->call<double>("dP_func");
 
-	return dP_func(provider_chumber, mass_fuel_rate, mass_nozzle_rate);
+	return dP_func(*provider_chumber, mass_fuel_rate, mass_nozzle_rate);
 }

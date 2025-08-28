@@ -89,10 +89,10 @@ namespace mdt
 		}
 
 		const std::vector<Param>& params() const { return params_; }
-		std::vector<Param>& params() const { return params_; }
+		std::vector<Param>& params() { return params_; }
 
 		const std::unordered_map<std::type_index, std::shared_ptr<VectorDataType>>& nested() const { return nested_; }
-		std::unordered_map<std::type_index, std::shared_ptr<VectorDataType>>& nested() const { return nested_; }
+		std::unordered_map<std::type_index, std::shared_ptr<VectorDataType>>& nested() { return nested_; }
 
 		VectorDataType& operator=(const VectorDataType& other)
 		{

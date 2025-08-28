@@ -2,11 +2,11 @@
 #include <iostream>
 #include <unordered_map>
 #include <any>
-#include "../IEngineComputationRealisticPhisics.h"
+#include "../ISteeringSystemComputationRealisticPhisics.h"
 
 namespace phis
 {
-	struct EngineComputationDynamicBundle final : public mdt::DynamicBundle 
+	struct SteeringSystemComputationDynamicBundle final : public mdt::DynamicBundle
 	{
 		std::unordered_map<std::string, std::function<std::any(const std::vector<std::any>&)>> storage;
 
@@ -23,14 +23,14 @@ namespace phis
 		}
 	};
 
-	class MyEngineComputationRealisticPhisics final : public IEngineComputationRealisticPhisics
+	class MySteeringSystemComputationRealisticPhisics final : public IEngineComputationRealisticPhisics
 	{
 	public:
-		explicit MyEngineComputationRealisticPhisics();
+		explicit MySteeringSystemComputationRealisticPhisics();
 
 		[[nodiscard]] u_ptr<mdt::DynamicBundle> getDynamicBundle() const override;
 
 	private:
-		detail::IComputeModule::DynamicType compute_engine_func(const detail::IComputeModule&) const;
+		detail::IComputeModule::DynamicType compute_steering_system_func(const detail::IComputeModule&, double) const;
 	};
 }

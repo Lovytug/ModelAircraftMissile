@@ -16,7 +16,7 @@ namespace comp
 
 		[[nodiscard]] const DynamicType& getDynamicData() const noexcept override;
 		[[nodiscard]] const StaticType& getStaticData() const noexcept override;
-		[[nodiscard]] u_ptr<mdt::DynamicBundle> getPhisicFunc() const noexcept override;
+		[[nodiscard]] u_ptr<mdt::DynamicBundle> getPhisicsFunc() const noexcept override;
 		[[nodiscard]] sh_ptr<detail::Time> getTime() const noexcept override;
 
 	private:

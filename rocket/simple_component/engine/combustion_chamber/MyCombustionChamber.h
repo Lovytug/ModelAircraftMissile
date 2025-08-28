@@ -39,7 +39,7 @@ namespace chamb
 
 		[[nodiscard]] const DynamicType& getDynamicData() const noexcept override;
 		[[nodiscard]] const StaticType& getStaticData() const noexcept override;
-		[[nodiscatd]] u_ptr<mdt::DynamicBundle> getPhisicsFunc() const noexcept override;
+		[[nodiscard]] u_ptr<mdt::DynamicBundle> getPhisicsFunc() const noexcept override;
 
 	private:
 		u_ptr<phis::IPhisicsModule> phisics;

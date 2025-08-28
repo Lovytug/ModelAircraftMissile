@@ -34,7 +34,7 @@ namespace mdt
 
     protected:
         // ”ниверсальный вызов Ч реализуетс€ в наследнике
-        virtual double do_call(const std::string& name, const std::vector<std::any>& args) = 0;
+        virtual std::any do_call(const std::string& name, const std::vector<std::any>& args) = 0;
 
         // –егистраци€ Ч реализуетс€ в наследнике
         virtual void do_add(const std::string& name, std::function<std::any(const std::vector<std::any>&)> func) = 0;

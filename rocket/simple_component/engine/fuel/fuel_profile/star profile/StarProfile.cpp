@@ -41,7 +41,7 @@ void fuel::StarProfile::updateState(const DynamicType& state)
 	return stat_data;
 }
 
-[[nodiscard]] u_ptr<mdt::DynamicBundle> fuel::StarProfile::getPhisicFunc() const noexcept
+[[nodiscard]] u_ptr<mdt::DynamicBundle> fuel::StarProfile::getPhisicsFunc() const noexcept
 {
 	return phisics->getDynamicBundle();
 }

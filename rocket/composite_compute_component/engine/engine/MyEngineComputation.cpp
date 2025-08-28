@@ -12,7 +12,7 @@ void comp::MyEngineComputation::updateState(const DynamicType& state)
 {
 	for (auto& [type, provider] : storage_) {
 		try {
-			provider->updateState(state.subdataByIndex(iface));
+			provider->updateState(state.subdataByIndex(type));
 		}
 		catch (const std::runtime_error&) {
 
@@ -35,7 +35,7 @@ void comp::MyEngineComputation::updateState(const DynamicType& state)
 	return stat_data_cache;
 }
 
-[[nodiscard]] u_ptr<mdt::DynamicBundle> comp::MyEngineComputation::getPhisicFunc() const noexcept
+[[nodiscard]] u_ptr<mdt::DynamicBundle> comp::MyEngineComputation::getPhisicsFunc() const noexcept
 {
 	return phisics->getDynamicBundle();
 }

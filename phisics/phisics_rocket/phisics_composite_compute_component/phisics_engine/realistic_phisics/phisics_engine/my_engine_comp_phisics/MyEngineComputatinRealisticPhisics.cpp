@@ -1,4 +1,3 @@
-#pragma once
 #include "MyEngineComputatinRealisticPhisics.h"
 
 #include "../../../../../../../rocket/composite_compute_component/engine/nozzle/INozzleComputation.h"
@@ -15,13 +14,13 @@
 
 DEFINE_STATE(EngineIntegrtor, pressure, r_inner)
 
-phis::MyEngineComputatinRealisticPhisics::MyEngineComputatinRealisticPhisics() {}
+phis::MyEngineComputationRealisticPhisics::MyEngineComputationRealisticPhisics() {}
 
-[[nodiscard]] u_ptr<mdt::DynamicBundle> phis::MyEngineComputatinRealisticPhisics::getDynamicBundle() const
+[[nodiscard]] u_ptr<mdt::DynamicBundle> phis::MyEngineComputationRealisticPhisics::getDynamicBundle() const
 {
 	auto bundle = std::make_unique<EngineComputationDynamicBundle>();
 
-	bundle->add<const detail::IComputeModule::DynamicType&>(
+	bundle->add<detail::IComputeModule::DynamicType>(
 		"engine_func",
 		[this](const detail::IComputeModule& computer) {
 			return compute_engine_func(computer);
@@ -29,7 +28,7 @@ phis::MyEngineComputatinRealisticPhisics::MyEngineComputatinRealisticPhisics() {
 	)
 }
 
-const detail::IComputeModule::DynamicType& phis::MyEngineComputatinRealisticPhisics::compute_engine_func(const detail::IComputeModule& computer) const
+detail::IComputeModule::DynamicType phis::MyEngineComputationRealisticPhisics::compute_engine_func(const detail::IComputeModule& computer) const
 {
 	auto provider_fuel_model = computer.getProvider<comp::IFuelModelComputation>();
 	auto provider_nozzle_model = computer.getProvider<comp::INozzleComputation>();
@@ -58,7 +57,7 @@ const detail::IComputeModule::DynamicType& phis::MyEngineComputatinRealisticPhis
 		EngineIntegrtor ds;
 		double m_dot_f = mass_flow_rate_func(*provider_fuel_model, s.pressure);
 		double m_dot_e = mass_gaz_rate_func(*provider_nozzle_model, s.pressure);
-		ds.pressure = dP_func(*provider_chamber_model, mass_flow_rate_func, mass_gaz_rate_func);
+		ds.pressure = dP_func(*provider_chamber_model, m_dot_f, m_dot_e);
 		ds.r_inner = dr_inner_func(*provider_fuel_model, burn_rate_func(*provider_fuel_model, s.pressure));
 		return ds;
 	};
@@ -78,5 +77,4 @@ const detail::IComputeModule::DynamicType& phis::MyEngineComputatinRealisticPhis
 	result.set<chamb::ICombustionChamber>("pressure", new_state.pressure);
 
 	return result;
-
 }

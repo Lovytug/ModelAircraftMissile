@@ -42,7 +42,7 @@ namespace detail
 
 		[[nodiscard]] u_ptr<mdt::DynamicBundle> getPhisicsFunc() const noexcept override
 		{
-			return static_cast<u_ptr<mdt::DynamicBundle>>(component_->getPhisicsFunc());
+			return component_->getPhisicsFunc();
 		}
 
 		void updateState(const DynamicType& data) override

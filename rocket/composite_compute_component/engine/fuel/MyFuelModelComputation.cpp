@@ -12,7 +12,7 @@ void comp::MyFuelModelComputation::updateState(const DynamicType& state)
 {
 	for (auto& [type, provider] : storage_) {
 		try {
-			provider->updateState(state.subdataByIndex(iface));
+			provider->updateState(state.subdataByIndex(type));
 		}
 		catch (const std::runtime_error&) {
 
@@ -20,7 +20,7 @@ void comp::MyFuelModelComputation::updateState(const DynamicType& state)
 	}
 }
 
-[[nodiscard]] detail::IComputeModule::DynamicType& comp::MyFuelModelComputation::getDynamicData() const noexcept
+[[nodiscard]] const detail::IComputeModule::DynamicType& comp::MyFuelModelComputation::getDynamicData() const noexcept
 {
 	dyn_data_cache = DynamicType();
 	for (auto& [type, provider] : storage_) {
@@ -30,12 +30,12 @@ void comp::MyFuelModelComputation::updateState(const DynamicType& state)
 	return dyn_data_cache;
 }
 
-[[nodiscard]] detail::IComputeModule::StaticType& comp::MyFuelModelComputation::getStaticData() const noexcept
+[[nodiscard]] const detail::IComputeModule::StaticType& comp::MyFuelModelComputation::getStaticData() const noexcept
 {
 	return stat_data_cache;
 }
 
-[[nodiscard]] u_ptr<mdt::DynamicBundle> comp::MyFuelModelComputation::getPhisicFunc() const noexcept
+[[nodiscard]] u_ptr<mdt::DynamicBundle> comp::MyFuelModelComputation::getPhisicsFunc() const noexcept
 {
 	return phisics->getDynamicBundle();
 }

@@ -32,7 +32,7 @@ double phis::MyNozzleComputationRealisticPhisics::compute_mass_gaz_for_integarte
 
 	auto mass_gaz_rate_func = bundle_nozzle->call<double>("mass_gaze_rate_func");
 
-	return mass_gaz_rate_func(provider_nozzle, pressure);
+	return mass_gaz_rate_func(*provider_nozzle, pressure);
 }
 
 double phis::MyNozzleComputationRealisticPhisics::compute_F_thrust(const detail::IComputeModule& computer, double pressure) const
@@ -43,5 +43,5 @@ double phis::MyNozzleComputationRealisticPhisics::compute_F_thrust(const detail:
 
 	auto F_thrust_func = bundle_nozzle->call<double>("F_thrust_func");
 
-	return F_thrust_func(provider_nozzle, pressure);
+	return F_thrust_func(*provider_nozzle, pressure);
 }

@@ -5,7 +5,7 @@ chamb::MyCombustionChamber::MyCombustionChamber(
 	double start_pressure, double V_cam,
 	double R_g, std::string name
 ) :
-	phisics(phisics),
+	phisics(std::move(phisics)),
 	dyn_data(
 		start_pressure,
 		0.0,
