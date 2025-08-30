@@ -5,7 +5,7 @@ namespace comp
 {
 	struct NozzleComputationDynamicData final : public detail::IComputeModule::DynamicType {};
 
-	struct MyNozzleComputationStaticData final : public detail::IComputeModule::StaticType {};
+	struct NozzleComputationStaticData final : public detail::IComputeModule::StaticType {};
 
 	class MyNozzleComputation final : public INozzleComputation
 	{
@@ -23,7 +23,7 @@ namespace comp
 		u_ptr<phis::IPhisicsModule> phisics;
 		sh_ptr<detail::Time> time;
 		mutable NozzleComputationDynamicData dyn_data_cache;
-		mutable MyNozzleComputationStaticData stat_data_cache;
+		mutable NozzleComputationStaticData stat_data_cache;
 	};
 
 }

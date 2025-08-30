@@ -59,5 +59,5 @@ phis::MyNozzleRealisticPhisics::MyNozzleRealisticPhisics() {}
 
 [[nodiscard]] inline double phis::MyNozzleRealisticPhisics::get_P_crit(double adiabatic) const noexcept
 {
-	return std::pow(2.0 / (adiabatic + 1), adiabatic / (adiabatic - 1.0));
+	return std::pow(2.0 / (adiabatic + 1.0), adiabatic / (adiabatic - 1.0));
 }

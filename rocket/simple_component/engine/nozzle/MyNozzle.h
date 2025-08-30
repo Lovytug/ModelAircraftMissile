@@ -4,7 +4,7 @@
 namespace noz
 {
 	template<typename IFace = INozzle>
-	struct MyNozzleDynamicData : public detail::IComponent::DynamicType
+	struct MyNozzleDynamicData final : public detail::IComponent::DynamicType
 	{
 		MyNozzleDynamicData(
 			double mass_gaze_rate, double F_thrust,
@@ -18,7 +18,7 @@ namespace noz
 	};
 
 	template<typename IFace = INozzle>
-	struct MyNozzleStaticData : public detail::IComponent::StaticType
+	struct MyNozzleStaticData final : public detail::IComponent::StaticType
 	{
 		MyNozzleStaticData(
 			const double critical_area_nozzle, const double adiabatic_index,
@@ -31,7 +31,7 @@ namespace noz
 		}
 	};
 
-	class MyNozzle : public INozzle
+	class MyNozzle final : public INozzle
 	{
 	public:
 		explicit MyNozzle(

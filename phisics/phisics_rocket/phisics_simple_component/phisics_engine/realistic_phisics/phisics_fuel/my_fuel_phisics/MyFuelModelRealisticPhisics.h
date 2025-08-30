@@ -9,7 +9,7 @@ namespace phis
 	{
 		std::unordered_map<std::string, std::function<std::any(const std::vector<std::any>&)>> storage;
 
-		double do_call(const std::string& name, const std::vector<std::any>& args) override {
+		std::any do_call(const std::string& name, const std::vector<std::any>& args) override {
 			auto it = storage.find(name);
 			if (it == storage.end()) {
 				throw std::runtime_error("Function not found: " + name);

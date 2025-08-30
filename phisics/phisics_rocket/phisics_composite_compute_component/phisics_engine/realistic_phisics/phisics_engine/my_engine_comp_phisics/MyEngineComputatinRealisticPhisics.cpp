@@ -22,7 +22,7 @@ phis::MyEngineComputationRealisticPhisics::MyEngineComputationRealisticPhisics()
 
 	bundle->add<detail::IComputeModule::DynamicType>(
 		"engine_func",
-		[this](const detail::IComputeModule& computer) {
+		[this](const detail::IComputeModule& computer) -> detail::IComputeModule::DynamicType {
 			return compute_engine_func(computer);
 		}
 	)

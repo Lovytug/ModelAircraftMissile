@@ -6,7 +6,7 @@ noz::MyNozzle::MyNozzle(
 	double V_effectiv, double temperature, 
 	double R_g, std::string name
 ) :
-	phisics(phisics),
+	phisics(std::move(phisics)),
 	dyn_data(
 		0.0,
 		0.0,

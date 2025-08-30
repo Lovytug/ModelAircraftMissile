@@ -7,14 +7,14 @@ phis::MyNozzleComputationRealisticPhisics::MyNozzleComputationRealisticPhisics()
 {
 	auto bundle = std::make_unique<NozzleComputationDynamicBundle>();
 
-	bundle->add<double>(
+	bundle->add<double, const detail::IComputeModule&, double>(
 		"mass_gaze_rate_func",
 		[this](const detail::IComputeModule& computer, double pressure) -> double {
 			return compute_mass_gaz_for_integarte(computer, pressure);
 		}
 	);
 
-	bundle->add<double>(
+	bundle->add<double, const detail::IComputeModule&, double>(
 		"F_thrust_func",
 		[this](const detail::IComputeModule& computer, double pressure) -> double {
 			return compute_F_thrust(computer, pressure);
