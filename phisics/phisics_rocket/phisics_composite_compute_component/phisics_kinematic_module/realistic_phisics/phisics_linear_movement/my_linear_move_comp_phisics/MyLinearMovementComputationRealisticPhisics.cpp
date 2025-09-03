@@ -16,7 +16,7 @@ phis::MyLinearMovementComputationRealisticPhisics::MyLinearMovementComputationRe
 {
 	auto bundle = std::make_unique<LinearMovementComputationDynamicBundle>();
 
-	bundle->add<detail::IComputeModule::DynamicType>(
+	bundle->add<detail::IComputeModule::DynamicType, const detail::IComputeModule&, mml::Vector>(
 		"pos_func",
 		[this](const detail::IComputeModule& computer, mml::Vector vec_vel) -> detail::IComputeModule::DynamicType {
 			return compute_pos(computer, vec_vel);
@@ -30,7 +30,7 @@ detail::IComputeModule::DynamicType phis::MyLinearMovementComputationRealisticPh
 {
 	auto [Vx, Vy, Vz] = vec_vel;
 
-	auto provider_linear = computer.getProvider<comp::ILinearMovementComputation>();
+	auto provider_linear = computer.getProvider<kin_lin::ILinearMovement>();
 
 	auto bundle_linear = provider_linear->getPhisicsFunc();
 
